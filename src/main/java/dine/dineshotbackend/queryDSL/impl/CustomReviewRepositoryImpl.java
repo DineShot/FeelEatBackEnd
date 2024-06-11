@@ -22,11 +22,15 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
     public List<Review> findAllReviewWithFilter(ReviewSearchFilterDTO DTO) {
 
         return jpaQueryFactory.selectFrom(review)
-                .join(review.restaurantCode,restaurant)
+                .join(review.restaurantCode,restaurant).fetchJoin() // 조인
                 .where(nearReview(DTO))
                 .fetch();
     }
 
+
+    /**
+     * 위도 경도를 이용한 리뷰 검색 필터
+     */
     private BooleanExpression nearReview(ReviewSearchFilterDTO dto) {
         double lat1 = dto.getLatitude();
         double lon1 = dto.getLongitude();

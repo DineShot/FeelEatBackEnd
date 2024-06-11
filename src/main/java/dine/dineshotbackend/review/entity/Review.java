@@ -30,9 +30,6 @@ public class Review {
     @Column(name = "review_registerdate")
     private Date reviewRegisterDate;
 
-    @Column(name = "review_rate")
-    private float reviewRate;
-
     @ManyToOne
     @JoinColumn(name = "user_code")
     private User userCode;

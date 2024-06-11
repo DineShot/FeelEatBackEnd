@@ -85,7 +85,7 @@ public class StoreController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/findRestaurant")
+    @GetMapping("/searchedRestaurant")
     public ResponseEntity<String> findRestaurantList(RestaurantFindFilterDTO filterDTO){
         System.out.println("filterDTO = " + filterDTO);
         List<Restaurant> resultList = storeService.findRestaurantWithFileter(filterDTO);

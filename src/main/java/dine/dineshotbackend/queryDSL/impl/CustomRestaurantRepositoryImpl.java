@@ -25,10 +25,10 @@ public class CustomRestaurantRepositoryImpl implements CustomRestaurantRepositor
                 .fetch();
     }
     private BooleanExpression containName(String name){
-        if(name.length() <= 1){ // 2글자 이상부터 검색가능
-            return null;
+        if(name.length() > 1){ // 2글자 이상부터 검색가능
+            return restaurant.restaurantName.contains(name);
         }
-        return restaurant.restaurantName.contains(name);
+        return null;
     }
     private BooleanExpression openTimeOption(boolean openTimeOption) {
         if (openTimeOption){
