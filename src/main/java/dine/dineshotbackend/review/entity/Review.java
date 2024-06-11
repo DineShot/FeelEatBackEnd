@@ -5,6 +5,7 @@ import dine.dineshotbackend.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "review")
 @Getter
 @Setter
+@ToString
 public class Review {
     @Id
     @Column(name = "review_code")
@@ -27,9 +29,6 @@ public class Review {
 
     @Column(name = "review_registerdate")
     private Date reviewRegisterDate;
-
-    @Column(name = "review_rate")
-    private float reviewRate;
 
     @ManyToOne
     @JoinColumn(name = "user_code")

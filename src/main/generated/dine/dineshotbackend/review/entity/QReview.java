@@ -36,8 +36,6 @@ public class QReview extends EntityPathBase<Review> {
 
     public final ListPath<ReviewMenu, QReviewMenu> reviewMenu = this.<ReviewMenu, QReviewMenu>createList("reviewMenu", ReviewMenu.class, QReviewMenu.class, PathInits.DIRECT2);
 
-    public final NumberPath<Float> reviewRate = createNumber("reviewRate", Float.class);
-
     public final ListPath<ReviewRecommend, QReviewRecommend> reviewRecommend = this.<ReviewRecommend, QReviewRecommend>createList("reviewRecommend", ReviewRecommend.class, QReviewRecommend.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.util.Date> reviewRegisterDate = createDateTime("reviewRegisterDate", java.util.Date.class);
