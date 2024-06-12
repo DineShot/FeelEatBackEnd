@@ -2,10 +2,7 @@ package dine.dineshotbackend.store.service;
 
 import dine.dineshotbackend.common.tools.Tool;
 import dine.dineshotbackend.queryDSL.CustomRestaurantRepository;
-import dine.dineshotbackend.store.dto.MenuListDTO;
-import dine.dineshotbackend.store.dto.RestaurantFindFilterDTO;
-import dine.dineshotbackend.store.dto.RestaurantImageDTO;
-import dine.dineshotbackend.store.dto.RestaurantJoinDTO;
+import dine.dineshotbackend.store.dto.*;
 import dine.dineshotbackend.store.entity.Menu;
 import dine.dineshotbackend.store.entity.Restaurant;
 import dine.dineshotbackend.store.entity.RestaurantImage;
@@ -27,6 +24,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class StoreService {
@@ -145,12 +144,18 @@ public class StoreService {
 
     /**
      * 가게 검색기능
-     * RestaurantFindFilterDTO 필요함
      */
-    public List<Restaurant> findRestaurantWithFileter(@RequestBody RestaurantFindFilterDTO filterDTO) {
+    public List<RestaurantSearchResponseDTO> findRestaurantWithFileter(@RequestBody RestaurantFindFilterDTO filterDTO) {
 
-        // 아래 분기별로 나눠놨던 쿼리를 이렇게 한줄에 !!! 이럴수가 !!!
-        return restaurantRepository.findRestaurantWithFilter(filterDTO);
+        return restaurantRepository.findRestaurantWithFilter(filterDTO).stream()
+                .map(entity ->
+                    RestaurantSearchResponseDTO.builder()
+                            .restaurantName(entity.getRestaurantName())
+                            .restaurantPhone(entity.getRestaurantNumber())
+                            .restaurantAddress(entity.getRestaurantAddress())
+                            .restaurantDetailAddress(entity.getRestaurantAddressDetail())
+                            .build()
+                ).toList();
 
         /**
          * 필터링 현재 2개 (영업중인 가게만 조회 , 주차장 유/무)
