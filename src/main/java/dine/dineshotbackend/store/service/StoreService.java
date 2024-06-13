@@ -183,6 +183,17 @@ public class StoreService {
 //        }
     }
 
+    public List<NearRestaurantResponseDTO> findNearRestaurantList(NearRestaurantFindDTO dto){
+        return restaurantRepository.findNearRestaurantList(dto).stream()
+                .map(entity ->
+                        NearRestaurantResponseDTO.builder()
+                                .restaurantCode(entity.getRestaurantCode())
+                                .restaurantName(entity.getRestaurantName())
+                                .restaurantExplain(entity.getRestaurantExplain())
+                                .build()).toList();
+
+    }
+
 //    public RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO) {
 //        return mapper.map(restaurantRepository.save(mapper.map(restaurantDTO, Restaurant.class)),RestaurantDTO.class);
 //    }
