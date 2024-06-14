@@ -23,6 +23,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final NumberPath<Long> userCode = createNumber("userCode", Long.class);
 
+    public final NumberPath<Integer> userFollwerCount = createNumber("userFollwerCount", Integer.class);
+
     public final BooleanPath userIsCEO = createBoolean("userIsCEO");
 
     public final StringPath userName = createString("userName");

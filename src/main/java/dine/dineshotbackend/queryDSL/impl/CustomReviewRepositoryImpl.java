@@ -1,5 +1,7 @@
 package dine.dineshotbackend.queryDSL.impl;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -9,7 +11,9 @@ import dine.dineshotbackend.review.dto.ReviewSearchFilterDTO;
 import dine.dineshotbackend.review.entity.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
+
 import static dine.dineshotbackend.review.entity.QReview.review;
 import static dine.dineshotbackend.store.entity.QRestaurant.restaurant;
 
@@ -23,7 +27,8 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
 
         return jpaQueryFactory.selectFrom(review)
                 .join(review.restaurantCode,restaurant).fetchJoin() // 조인
-                .where(nearReview(DTO))
+                .where(nearReview(DTO)) // 가까운 가게 리뷰만 조회하는 where
+                .orderBy(createOrderSpecifier(DTO)) // 추천순 정렬 옵션
                 .fetch();
     }
 
@@ -44,5 +49,18 @@ public class CustomReviewRepositoryImpl implements CustomReviewRepository {
 
         // 반경 이내의 장소 필터링 (loe = less than or equal to = 이하)
         return distance.loe(radius);
+    }
+
+    /**
+     * 추천순 정렬 옵션
+     * null 일 시 리뷰 작성일 빠른기준으로
+     * @param DTO
+     * @return
+     */
+    private OrderSpecifier createOrderSpecifier(ReviewSearchFilterDTO DTO) {
+        if (DTO.isOrderByRecommend()) {
+            return review.recommendCount.desc();
+        }
+        return review.reviewRegisterDate.desc();
     }
 }

@@ -11,4 +11,5 @@ public class ReviewSearchFilterDTO {
     private double Latitude; // 위도
     private double Longitude; // 경도
     private double radius; // km 단위 거리 (2 = 2km)
+    private boolean orderByRecommend ; // 추천순정렬 옵션
 }
