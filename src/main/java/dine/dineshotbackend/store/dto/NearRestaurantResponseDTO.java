@@ -12,4 +12,6 @@ public class NearRestaurantResponseDTO {
     private Long restaurantCode;
     private String restaurantName;
     private String restaurantExplain;
+    private double restaurantLatitude;
+    private double restaurantLongitude;
 }

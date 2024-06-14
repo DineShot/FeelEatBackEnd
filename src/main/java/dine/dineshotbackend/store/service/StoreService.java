@@ -154,6 +154,8 @@ public class StoreService {
                             .restaurantPhone(entity.getRestaurantNumber())
                             .restaurantAddress(entity.getRestaurantAddress())
                             .restaurantDetailAddress(entity.getRestaurantAddressDetail())
+                            .Longitude(entity.getRestaurantLongitude())
+                            .Latitude(entity.getRestaurantLatitude())
                             .build()
                 ).toList();
 
@@ -190,6 +192,8 @@ public class StoreService {
                                 .restaurantCode(entity.getRestaurantCode())
                                 .restaurantName(entity.getRestaurantName())
                                 .restaurantExplain(entity.getRestaurantExplain())
+                                .restaurantLatitude(entity.getRestaurantLatitude())
+                                .restaurantLongitude(entity.getRestaurantLongitude())
                                 .build()).toList();
 
     }

@@ -13,4 +13,6 @@ public class RestaurantSearchResponseDTO {
     private String restaurantAddress;
     private String restaurantDetailAddress;
     private String restaurantPhone;
+    private double Latitude;
+    private double Longitude;
 }

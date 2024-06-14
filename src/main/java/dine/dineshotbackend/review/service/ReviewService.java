@@ -158,7 +158,10 @@ public class ReviewService {
         return reviewRepository.findAllReviewWithFilter(DTO).stream()
                 .map(entity -> ReviewSearchResponseDTO.builder()
                         .reviewDetail(entity.getReviewDetail())
-                        .reviewCode(entity.getReviewCode()).build()
+                        .reviewCode(entity.getReviewCode())
+                        .Latitude(entity.getRestaurantCode().getRestaurantLatitude())
+                        .Longitude(entity.getRestaurantCode().getRestaurantLongitude())
+                        .build()
                 ).toList();
     }
 }
