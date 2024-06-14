@@ -3,6 +3,8 @@ package dine.dineshotbackend.review.service;
 import dine.dineshotbackend.common.tools.Tool;
 import dine.dineshotbackend.follow.entity.Follow;
 import dine.dineshotbackend.follow.repository.FollowRepository;
+import dine.dineshotbackend.review.dto.ReviewSearchFilterDTO;
+import dine.dineshotbackend.review.dto.ReviewSearchResponseDTO;
 import dine.dineshotbackend.review.dto.ReviewWriteDTO;
 import dine.dineshotbackend.review.entity.Review;
 import dine.dineshotbackend.review.entity.ReviewImage;
@@ -150,5 +152,13 @@ public class ReviewService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<ReviewSearchResponseDTO> searchReviewWithFilter(ReviewSearchFilterDTO DTO) {
+        return reviewRepository.findAllReviewWithFilter(DTO).stream()
+                .map(entity -> ReviewSearchResponseDTO.builder()
+                        .reviewDetail(entity.getReviewDetail())
+                        .reviewCode(entity.getReviewCode()).build()
+                ).toList();
     }
 }

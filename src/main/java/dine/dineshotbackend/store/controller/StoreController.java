@@ -3,10 +3,7 @@ package dine.dineshotbackend.store.controller;
 import dine.dineshotbackend.common.response.ResponseDTO;
 import dine.dineshotbackend.common.response.ResponseTool;
 import dine.dineshotbackend.security.dto.CustomUserDetails;
-import dine.dineshotbackend.store.dto.MenuListDTO;
-import dine.dineshotbackend.store.dto.RestaurantFindFilterDTO;
-import dine.dineshotbackend.store.dto.RestaurantImageDTO;
-import dine.dineshotbackend.store.dto.RestaurantJoinDTO;
+import dine.dineshotbackend.store.dto.*;
 import dine.dineshotbackend.store.entity.Menu;
 import dine.dineshotbackend.store.entity.Restaurant;
 import dine.dineshotbackend.store.repository.RestaurantRepository;
@@ -20,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/store")
@@ -85,11 +83,13 @@ public class StoreController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/findRestaurant")
-    public ResponseEntity<String> findRestaurantList(RestaurantFindFilterDTO filterDTO){
-        System.out.println("filterDTO = " + filterDTO);
-        List<Restaurant> resultList = storeService.findRestaurantWithFileter(filterDTO);
-        return ResponseEntity.ok().body(resultList.toString()); // DTO로 변환필요
+    @GetMapping("/searchedRestaurant")
+    public ResponseEntity<String> findRestaurantList(RestaurantFindFilterDTO filterDTO) {
+        return ResponseEntity.ok().body(storeService.findRestaurantWithFileter(filterDTO).toString()); // DTO로 변환필요
     }
 
+    @GetMapping("/nearRestaurant")
+    public ResponseEntity<String> findNearRestaurant(NearRestaurantFindDTO dto){
+        return ResponseEntity.ok().body(storeService.findNearRestaurantList(dto).toString());
+    }
 }

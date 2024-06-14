@@ -5,6 +5,7 @@ import dine.dineshotbackend.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "review")
 @Getter
 @Setter
+@ToString
 public class Review {
     @Id
     @Column(name = "review_code")
@@ -28,10 +30,7 @@ public class Review {
     @Column(name = "review_registerdate")
     private Date reviewRegisterDate;
 
-    @Column(name = "review_rate")
-    private float reviewRate;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_code")
     private User userCode;
 
@@ -49,7 +48,7 @@ public class Review {
     //리뷰 태그
     @OneToMany(mappedBy = "reviewCode")
     private List<ReviewTag> tag;
-    @OneToMany(mappedBy = "reviewCode")
+    @OneToMany(mappedBy = "reviewCode",fetch = FetchType.LAZY)
     private List<ReviewRecommend> reviewRecommend;
 
     //좋아요 갯수 추가 / 감소
