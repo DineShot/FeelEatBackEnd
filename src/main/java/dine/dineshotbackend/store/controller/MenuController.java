@@ -31,7 +31,6 @@ public class MenuController {
         if (menuService.addMenu(restaurantCode, menuUploadDTO, file)) {
             return tool.res("성공적으로 메뉴가 업로드 되었습니다.", null);
         }
-        ;
         return tool.resErr(HttpStatus.BAD_REQUEST, "메뉴 업로드 과정중 오류가 발생하였습니다.");
     }
 
