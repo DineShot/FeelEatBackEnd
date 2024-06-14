@@ -80,8 +80,8 @@ public class ReviewController {
     }
 
     @GetMapping("/searchedReviews")
-    public ResponseEntity<String> findReviewWithFilter(ReviewSearchFilterDTO fileterDTO) {
-        return ResponseEntity.ok().body(reviewService.searchReviewWithFilter(fileterDTO).toString());
+    public ResponseEntity<?> findReviewWithFilter(ReviewSearchFilterDTO fileterDTO) {
+        return ResponseEntity.ok().body(reviewService.searchReviewWithFilter(fileterDTO));
     }
 }
 

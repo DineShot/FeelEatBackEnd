@@ -72,9 +72,9 @@ public class StoreController {
     }
 
     @GetMapping("/showMenu") // 레스토랑 코드로 메뉴 조회 리스트
-    public ResponseEntity<String> getMenuList(@RequestParam Long restaurantCode) {
+    public ResponseEntity<?> getMenuList(@RequestParam Long restaurantCode) {
         List<MenuListDTO> menuList = storeService.getMenuList(restaurantCode);
-        return ResponseEntity.ok().body(menuList.toString());
+        return ResponseEntity.ok().body(menuList);
     }
 
     @GetMapping("/deleteMenu")
@@ -84,12 +84,12 @@ public class StoreController {
     }
 
     @GetMapping("/searchedRestaurant")
-    public ResponseEntity<String> findRestaurantList(RestaurantFindFilterDTO filterDTO) {
-        return ResponseEntity.ok().body(storeService.findRestaurantWithFileter(filterDTO).toString()); // DTO로 변환필요
+    public ResponseEntity<?> findRestaurantList(RestaurantFindFilterDTO filterDTO) {
+        return ResponseEntity.ok().body(storeService.findRestaurantWithFileter(filterDTO)); // DTO로 변환필요
     }
 
     @GetMapping("/nearRestaurant")
-    public ResponseEntity<String> findNearRestaurant(NearRestaurantFindDTO dto){
-        return ResponseEntity.ok().body(storeService.findNearRestaurantList(dto).toString());
+    public ResponseEntity<?> findNearRestaurant(NearRestaurantFindDTO dto){
+        return ResponseEntity.ok().body(storeService.findNearRestaurantList(dto));
     }
 }
