@@ -1,6 +1,10 @@
 package dine.dineshotbackend.user.service;
 
 import dine.dineshotbackend.security.KaKaoTokenUtil;
+import dine.dineshotbackend.store.entity.Restaurant;
+import dine.dineshotbackend.store.repository.RestaurantRepository;
+import dine.dineshotbackend.user.dto.RestaurantAndUserDTO;
+import dine.dineshotbackend.user.dto.RestaurantSearchDTO;
 import dine.dineshotbackend.user.dto.UserFindDTO;
 import dine.dineshotbackend.user.dto.UserJoinDTO;
 import dine.dineshotbackend.user.entity.User;
@@ -16,11 +20,13 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final KaKaoTokenUtil kaKaoTokenUtil;
+    private final RestaurantRepository restaurantRepository;
 
 
-    public UserService(UserRepository userRepository, KaKaoTokenUtil kaKaoTokenUtil) {
+    public UserService(UserRepository userRepository, KaKaoTokenUtil kaKaoTokenUtil, RestaurantRepository restaurantRepository) {
         this.userRepository = userRepository;
         this.kaKaoTokenUtil = kaKaoTokenUtil;
+        this.restaurantRepository = restaurantRepository;
     }
 
     //회원가입 메서드
@@ -71,5 +77,34 @@ public class UserService {
             userFindDTOList.add(userFindDTO);
         }
         return userFindDTOList;
+    }
+
+    public RestaurantAndUserDTO getUserInformationOrRestaurant(String word) {
+        RestaurantAndUserDTO restaurantAndUserDTO = new RestaurantAndUserDTO();
+        List<User> user = userRepository.findAllByUserNameContaining(word);
+        List<Restaurant> restaurants = restaurantRepository.findAllByRestaurantNameContaining(word);
+        List<UserFindDTO> userFindDTO = new ArrayList<>();
+        List<RestaurantSearchDTO> restaurantDTOS = new ArrayList<>();
+        for(User u : user){
+            UserFindDTO userFind = new UserFindDTO();
+            userFind.setUserCode(u.getUserCode());
+            userFind.setUserProfileImage(u.getUserProfileImg());
+            userFind.setUserName(u.getUserName());
+            userFindDTO.add(userFind);
+        }
+        for(Restaurant r : restaurants){
+            RestaurantSearchDTO restaurantDTO = new RestaurantSearchDTO();
+            restaurantDTO.setRestaurantCode(r.getRestaurantCode());
+            restaurantDTO.setRestaurantName(r.getRestaurantName());
+            restaurantDTO.setRestaurantAddress(r.getRestaurantAddress());
+            restaurantDTO.setRestaurantAddressDetail(r.getRestaurantAddressDetail());
+            restaurantDTO.setRestaurantOpenTime(r.getRestaurantOpenTime().toString());
+            restaurantDTO.setRestaurantCloseTime(r.getRestaurantCloseTime().toString());
+            restaurantDTO.setRestaurantImage(r.getRestaurantImageRestaurantCode().get(0).getRestaurantImageChange());
+            restaurantDTOS.add(restaurantDTO);
+        }
+        restaurantAndUserDTO.setUser(userFindDTO);
+        restaurantAndUserDTO.setRestaurant(restaurantDTOS);
+        return restaurantAndUserDTO;
     }
 }
