@@ -159,8 +159,8 @@ public class ReviewService {
                 .map(entity -> ReviewSearchResponseDTO.builder()
                         .reviewDetail(entity.getReviewDetail())
                         .reviewCode(entity.getReviewCode())
-                        .Latitude(entity.getRestaurantCode().getRestaurantLatitude())
-                        .Longitude(entity.getRestaurantCode().getRestaurantLongitude())
+                        .latitude(entity.getRestaurantCode().getRestaurantLatitude())
+                        .longitude(entity.getRestaurantCode().getRestaurantLongitude())
                         .build()
                 ).toList();
     }

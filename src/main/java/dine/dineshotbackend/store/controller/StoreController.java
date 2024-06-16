@@ -4,10 +4,13 @@ import dine.dineshotbackend.common.response.ResponseDTO;
 import dine.dineshotbackend.common.response.ResponseTool;
 import dine.dineshotbackend.security.dto.CustomUserDetails;
 import dine.dineshotbackend.store.dto.*;
-import dine.dineshotbackend.store.entity.Menu;
-import dine.dineshotbackend.store.entity.Restaurant;
-import dine.dineshotbackend.store.repository.RestaurantRepository;
 import dine.dineshotbackend.store.service.StoreService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,9 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
+@Tag(name = "가게",description = "가게 관련 API입니다.")
 @RestController
 @RequestMapping("/store")
 public class StoreController {
@@ -88,8 +90,11 @@ public class StoreController {
         return ResponseEntity.ok().body(storeService.findRestaurantWithFileter(filterDTO)); // DTO로 변환필요
     }
 
+    @Operation(summary = "가까운 가게 검색",description = "사용자 현재 위치 주변 가게 검색기능")
+    @ApiResponse(responseCode = "200",description = "가게들의 정보를 담은 DTO 의 List 를 반환합니다."
+    ,content = @Content(schema = @Schema(implementation = NearRestaurantResponseDTO.class),mediaType = "application/json"))
     @GetMapping("/nearRestaurant")
-    public ResponseEntity<?> findNearRestaurant(NearRestaurantFindDTO dto){
+    public ResponseEntity<?> findNearRestaurant(@Parameter(description = "위도,경도,거리 세가지 전부 필수") NearRestaurantFindDTO dto){
         return ResponseEntity.ok().body(storeService.findNearRestaurantList(dto));
     }
 }

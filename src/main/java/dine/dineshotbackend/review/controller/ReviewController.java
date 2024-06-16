@@ -3,9 +3,16 @@ package dine.dineshotbackend.review.controller;
 import dine.dineshotbackend.common.response.ResponseDTO;
 import dine.dineshotbackend.common.response.ResponseTool;
 import dine.dineshotbackend.review.dto.ReviewSearchFilterDTO;
+import dine.dineshotbackend.review.dto.ReviewSearchResponseDTO;
 import dine.dineshotbackend.review.dto.ReviewWriteDTO;
 import dine.dineshotbackend.review.service.ReviewService;
 import dine.dineshotbackend.user.entity.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static dine.dineshotbackend.common.tools.Tool.imageUpload;
 
+@Tag(name = "리뷰",description = "리뷰관련 API 입니다.")
 @RestController
 public class ReviewController {
     private final ReviewService reviewService;
@@ -80,8 +88,12 @@ public class ReviewController {
         }
     }
 
+
+    @Operation(summary = "사용자 주변 리뷰검색",description = "사용자 주변 가게 리뷰검색 메서드입니다.")
+    @ApiResponse(responseCode = "200",description = "요청 성공, 리뷰 ResponseDTO 들을 JSON 으로 반환",
+    content = @Content(schema = @Schema(implementation = ReviewSearchResponseDTO.class)))
     @GetMapping("/searchedReviews")
-    public ResponseEntity<?> findReviewWithFilter(ReviewSearchFilterDTO fileterDTO) {
+    public ResponseEntity<?> findReviewWithFilter (@Parameter(description = "리뷰검색을 위한 객체 latitude,longitude,radius 만 필수값") ReviewSearchFilterDTO fileterDTO) {
         return ResponseEntity.ok().body(reviewService.searchReviewWithFilter(fileterDTO));
     }
 }
