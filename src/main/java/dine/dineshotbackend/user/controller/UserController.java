@@ -1,5 +1,6 @@
 package dine.dineshotbackend.user.controller;
 
+import dine.dineshotbackend.user.dto.RestaurantAndUserDTO;
 import dine.dineshotbackend.user.dto.UserFindDTO;
 import dine.dineshotbackend.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,6 +50,15 @@ public class UserController {
             return ResponseEntity.ok().body(user);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage()+"의 오류로 실패했습니다.");
+        }
+    }
+    @GetMapping("/user-restaurant")
+    public ResponseEntity<?> getUserInformationOrRestaurant(@RequestParam String word){
+        try {
+            RestaurantAndUserDTO restaurantAndUserDTO = userService.getUserInformationOrRestaurant(word);
+            return ResponseEntity.ok().body(restaurantAndUserDTO);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("에러 발생");
         }
     }
 }

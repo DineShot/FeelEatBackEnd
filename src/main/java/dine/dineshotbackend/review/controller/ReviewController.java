@@ -59,6 +59,7 @@ public class ReviewController {
         return tool.res("리뷰 삭제에 성공했습니다.", null);
     }
 
+    //지역별로 리뷰를 받아보자
     @GetMapping("/review/home")
     public ResponseEntity<ResponseDTO> showHomeReview(@RequestParam(value = "page")int page){
         Long userCode = 1L; //임시 유저 코드
