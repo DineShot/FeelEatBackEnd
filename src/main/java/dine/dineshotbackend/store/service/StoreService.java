@@ -1,7 +1,8 @@
 package dine.dineshotbackend.store.service;
 
 import dine.dineshotbackend.common.tools.Tool;
-import dine.dineshotbackend.queryDSL.CustomRestaurantRepository;
+import dine.dineshotbackend.popularWord.entity.PopularWord;
+import dine.dineshotbackend.popularWord.repository.PopularWordRepository;
 import dine.dineshotbackend.store.dto.*;
 import dine.dineshotbackend.store.entity.Menu;
 import dine.dineshotbackend.store.entity.Restaurant;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class StoreService {
@@ -36,13 +36,15 @@ public class StoreService {
     private final RestaurantRepository restaurantRepository;
     private final ModelMapper mapper;
     private final MenuRepository menuRepository;
+    private final PopularWordRepository popularWordRepository;
 
-    public StoreService(Tool tool, RestaurantImageRepository restaurantImageRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository, ModelMapper mapper) {
+    public StoreService(Tool tool, RestaurantImageRepository restaurantImageRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository, ModelMapper mapper, PopularWordRepository popularWordRepository) {
         this.tool = tool;
         this.restaurantImageRepository = restaurantImageRepository;
         this.restaurantRepository = restaurantRepository;
         this.mapper = mapper;
         this.menuRepository = menuRepository;
+        this.popularWordRepository = popularWordRepository;
     }
 
     public List<RestaurantImageDTO> imgUpload(ArrayList<MultipartFile> files, Long restaurantCode) {
@@ -110,8 +112,6 @@ public class StoreService {
     /**
      * 메뉴 리스트 불러오는 메서드
      *
-     * @param restaurantCode 가게 코드
-     * @return
      */
     public List<MenuListDTO> getMenuList(Long restaurantCode) {
         List<Menu> menuList = menuRepository.getAllByRestaurant(restaurantCode);
@@ -130,8 +130,6 @@ public class StoreService {
     /**
      * 메뉴 삭제하는 메서드
      *
-     * @param menuCode 메뉴 ID값
-     * @return true or false
      */
     public boolean deleteMenu(Long menuCode) {
         try {
@@ -143,7 +141,7 @@ public class StoreService {
     }
 
     /**
-     * 가게 검색기능
+     * 가게 필터로 검색기능
      */
     public List<RestaurantSearchResponseDTO> findRestaurantWithFileter(@RequestBody RestaurantFindFilterDTO filterDTO) {
 
@@ -158,33 +156,11 @@ public class StoreService {
                             .Latitude(entity.getRestaurantLatitude())
                             .build()
                 ).toList();
-
-        /**
-         * 필터링 현재 2개 (영업중인 가게만 조회 , 주차장 유/무)
-         * 분기에 따라 4개의 메서드 작성
-         * 이렇게 코드를 짜는게 맞나..?
-         */
-//        if (isOpen) { // 영업중 on
-//            LocalTime now = LocalTime.now();
-//            if (hasParking) { // 주차장 on
-//                System.out.println("on,on");
-//                return restaurantRepository.findRestaurantOpenTrueParkingTrue(name,now);
-//            }
-//            // 주차장 off
-//            System.out.println("on,off");
-//            return restaurantRepository.findRestaurantIsOpenTrue(name,now);
-//        }else { //  영업중 off
-//            if (hasParking) { // 주차장 on
-//                System.out.println("off,on");
-//                return restaurantRepository.findRestaurantParkingTrue(name);
-//            }
-//
-//            //주차장 off
-//            System.out.println("off,off");
-//            return restaurantRepository.findRestaurantByName(name);
-//        }
     }
 
+    /**
+     * 가까운 가게 검색기능
+     */
     public List<NearRestaurantResponseDTO> findNearRestaurantList(NearRestaurantFindDTO dto){
         return restaurantRepository.findNearRestaurantList(dto).stream()
                 .map(entity ->
@@ -196,6 +172,22 @@ public class StoreService {
                                 .restaurantLongitude(entity.getRestaurantLongitude())
                                 .build()).toList();
 
+    }
+
+    /**
+     * 이름으로 가게 찾기 기능 , 중간에 검색어는 DB에 저장됨
+     */
+    @Transactional
+    public List<RestaurantSearchResponseDTO> findRestaurantWithName(String name) {
+        popularWordRepository.save(PopularWord.createPopualrWord(name)); // 검색어 저장
+        return restaurantRepository.findRestaurantByName(name).stream()
+                .map(entity->
+                        RestaurantSearchResponseDTO.builder()
+                                .restaurantName(entity.getRestaurantName())
+                                .restaurantPhone(entity.getRestaurantNumber())
+                                .restaurantAddress(entity.getRestaurantAddress())
+                                .restaurantDetailAddress(entity.getRestaurantAddressDetail())
+                                .build()).toList();
     }
 
 //    public RestaurantDTO insertRestaurant(RestaurantDTO restaurantDTO) {

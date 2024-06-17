@@ -97,4 +97,24 @@ public class StoreController {
     public ResponseEntity<?> findNearRestaurant(@Parameter(description = "위도,경도,거리 세가지 전부 필수") NearRestaurantFindDTO dto){
         return ResponseEntity.ok().body(storeService.findNearRestaurantList(dto));
     }
+
+    @Operation(summary = "이름으로 가게 검색", description = "이름으로 가게 검색하는 기능",
+    responses = {
+            @ApiResponse(responseCode = "200",description = "찾은 가게정보를 담은 DTO의 List 를 반환",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestaurantSearchResponseDTO.class))),
+                    @ApiResponse(responseCode = "404",description = "검색 결과가 존재하지 않습니다.")
+
+    })
+    @GetMapping("/restaurants")
+    public ResponseEntity<?> findRestaurantWithName(@RequestParam String restaurantName) {
+        List<RestaurantSearchResponseDTO> list = storeService.findRestaurantWithName(restaurantName);
+        System.out.println("restaurantName = " + restaurantName);
+        if (list.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(list);
+    }
+
+
 }

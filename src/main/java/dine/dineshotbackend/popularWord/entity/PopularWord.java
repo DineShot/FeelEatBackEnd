@@ -23,4 +23,11 @@ public class PopularWord {
 
     @Column(name = "popular_search_date")
     private Date searchDate;
+
+    public static PopularWord createPopualrWord(String name) {
+        PopularWord popularWord = new PopularWord();
+        popularWord.keyWord = name;
+        popularWord.searchDate = new Date();
+        return popularWord;
+    }
 }
