@@ -39,7 +39,7 @@ public class Badge {
      */
     public void increaseBadgeHasUserCount() {
         this.badgeHasUserCount++;
-    };
+    }
     public void decreaseBadgeHasUsercount(){
         this.badgeHasUserCount--;
     }

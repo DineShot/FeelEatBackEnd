@@ -1,6 +1,5 @@
 package dine.dineshotbackend.badge.controller;
 
-import dine.dineshotbackend.badge.dto.BadgeFindFilterDTO;
 import dine.dineshotbackend.badge.entity.Badge;
 import dine.dineshotbackend.badge.service.BadgeService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,6 +1,5 @@
 package dine.dineshotbackend.review.service;
 
-import dine.dineshotbackend.badge.entity.Badge;
 import dine.dineshotbackend.common.tools.Tool;
 import dine.dineshotbackend.follow.entity.Follow;
 import dine.dineshotbackend.follow.repository.FollowRepository;
