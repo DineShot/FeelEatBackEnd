@@ -9,3 +9,5 @@ clone 시 application.yml 설정 필요
 
 # PR 기능은 아직 없음
 
+ERD 주소
+https://www.erdcloud.com/d/mzj2qMK8ESkjy4mP3
