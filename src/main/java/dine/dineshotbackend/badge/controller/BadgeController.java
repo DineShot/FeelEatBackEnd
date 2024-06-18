@@ -31,7 +31,7 @@ public class BadgeController {
             "아무값도 넣지 않을시 전체뱃지를 조회합니다.")
     @ApiResponse(responseCode = "200",description = "요청 성공, BadgeEntity 의 List를  JSON 으로 반환",
             content = @Content(schema = @Schema(implementation = Badge.class)))
-    public ResponseEntity<?> getAllBadge(@RequestParam(required = false)String badgeName,
+    public ResponseEntity<?> getAllBadge(@RequestParam(required = false)@Parameter(description = "필수 X") String badgeName,
                                          @RequestParam(required = false)@Parameter(description = "location / event / activity 중 1 필수X ")
                                          String category,
                                          @RequestParam(required = false)@Parameter(description = "bronze / silver / gold 중 1 필수X")
