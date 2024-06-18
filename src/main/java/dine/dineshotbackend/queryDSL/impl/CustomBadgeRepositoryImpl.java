@@ -25,9 +25,9 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
     @Override
     public List<Badge> findBadgeByFilter(BadgeFindFilterDTO DTO) {
         return queryFactory.selectFrom(badge)
-                .where(findByName(DTO.getBadgeName()),
-                        findByBadgeLevel(DTO.getBadgeLevel()),
-                        findByCategory(DTO.getBadgeCategory()))
+                .where( findByBadgeLevel(DTO.getBadgeLevel()),
+                        findByCategory(DTO.getBadgeCategory()),
+                        findByName(DTO.getBadgeName()))
                 .fetch();
     }
 
@@ -48,6 +48,6 @@ public class CustomBadgeRepositoryImpl implements CustomBadgeRepository {
         if (name == null) {
             return null;
         }
-        return badge.badgeName.contains(name);
+        return badge.badgeName.containsIgnoreCase(name);
     }
 }

@@ -3,6 +3,7 @@ package dine.dineshotbackend.badge.controller;
 import dine.dineshotbackend.badge.entity.Badge;
 import dine.dineshotbackend.badge.service.BadgeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,10 +31,12 @@ public class BadgeController {
             "아무값도 넣지 않을시 전체뱃지를 조회합니다.")
     @ApiResponse(responseCode = "200",description = "요청 성공, BadgeEntity 의 List를  JSON 으로 반환",
             content = @Content(schema = @Schema(implementation = Badge.class)))
-    public ResponseEntity<?> getAllBadge(@RequestParam(required = false)String name,
-                                         @RequestParam(required = false)String category,
-                                         @RequestParam(required = false)String level) {
-        List<Badge> badgeList = badgeService.findBadgesWithFilter(name,category,level);
+    public ResponseEntity<?> getAllBadge(@RequestParam(required = false)String badgeName,
+                                         @RequestParam(required = false)@Parameter(description = "location / event / activity 중 1 필수X ")
+                                         String category,
+                                         @RequestParam(required = false)@Parameter(description = "bronze / silver / gold 중 1 필수X")
+                                         String level) {
+        List<Badge> badgeList = badgeService.findBadgesWithFilter(badgeName,category,level);
         return ResponseEntity.ok(badgeList);
     }
 }
