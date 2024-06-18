@@ -1,8 +1,9 @@
 package dine.dineshotbackend.badge.entity;
 
-import dine.dineshotbackend.review.entity.ComplainId;
 import dine.dineshotbackend.user.entity.User;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @IdClass(UserBadgeId.class)
@@ -17,4 +18,6 @@ public class UserBadge {
     @JoinColumn(name = "user_code")
     private User userCode;
 
+    @Column(name = "user_badge_get_date")
+    private Date badgeDate;
 }

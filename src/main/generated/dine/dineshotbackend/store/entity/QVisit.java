@@ -49,7 +49,7 @@ public class QVisit extends EntityPathBase<Visit> {
     public QVisit(Class<? extends Visit> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.restaurantCode = inits.isInitialized("restaurantCode") ? new QRestaurant(forProperty("restaurantCode")) : null;
-        this.UserCode = inits.isInitialized("UserCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("UserCode")) : null;
+        this.UserCode = inits.isInitialized("UserCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("UserCode"), inits.get("UserCode")) : null;
     }
 
 }

@@ -1,11 +1,11 @@
 package dine.dineshotbackend.user.entity;
 
+import dine.dineshotbackend.badge.entity.Badge;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @AllArgsConstructor@NoArgsConstructor@Getter@Setter
@@ -26,6 +26,10 @@ public class User {
     private String userRole;
     @Column(name = "user_follwer_count")
     private int userFollwerCount;
+
+    @JoinColumn(name = "user_equip_badge")
+    @OneToOne
+    private Badge userEquipBadge;
 
     public User(Long userCode) {
         this.userCode = userCode;

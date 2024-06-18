@@ -107,4 +107,9 @@ public class UserService {
         restaurantAndUserDTO.setRestaurant(restaurantDTOS);
         return restaurantAndUserDTO;
     }
+
+    public void userEqiupBadge(Long userCode, Long badgeCode) {
+
+    }
+
 }

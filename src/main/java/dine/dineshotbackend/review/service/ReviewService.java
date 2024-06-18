@@ -17,17 +17,18 @@ import dine.dineshotbackend.review.repository.ReviewTagRepository;
 import dine.dineshotbackend.store.entity.Restaurant;
 import dine.dineshotbackend.user.entity.User;
 import dine.dineshotbackend.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewService {
@@ -163,5 +164,33 @@ public class ReviewService {
                         .longitude(entity.getRestaurantCode().getRestaurantLongitude())
                         .build()
                 ).toList();
+    }
+
+    /**
+     * 리뷰 추천수 추가 메서드
+     */
+    @Transactional
+    public void increaseRecommendCount(Long reviewCode) {
+        Optional<Review> review = reviewRepository.findById(reviewCode);
+        if (review.isEmpty()) {
+            throw new IllegalArgumentException("review not found");
+        }
+        Review newReview = review.get();
+        newReview.increaseRecommendCount();
+        reviewRepository.save(newReview);
+    }
+
+    /**
+     * 리뷰 추천수 감소 메서드
+     */
+    @Transactional
+    public void decreaseRecommendCount(Long reviewCode) {
+        Optional<Review> review = reviewRepository.findById(reviewCode);
+        if (review.isEmpty()) {
+            throw new IllegalArgumentException("review not found");
+        }
+        Review newReview = review.get();
+        newReview.decreaseRecommendCount();
+        reviewRepository.save(newReview);
     }
 }
