@@ -19,11 +19,19 @@ public class QBadge extends EntityPathBase<Badge> {
 
     public static final QBadge badge = new QBadge("badge");
 
+    public final EnumPath<BadgeCategory> badgeCategory = createEnum("badgeCategory", BadgeCategory.class);
+
     public final NumberPath<Long> badgeCode = createNumber("badgeCode", Long.class);
 
-    public final StringPath badgeHowToGet = createString("badgeHowToGet");
+    public final StringPath badgeExplain = createString("badgeExplain");
+
+    public final NumberPath<Integer> badgeHasUserCount = createNumber("badgeHasUserCount", Integer.class);
 
     public final StringPath badgeImageName = createString("badgeImageName");
+
+    public final EnumPath<BadgeLevel> badgeLevel = createEnum("badgeLevel", BadgeLevel.class);
+
+    public final StringPath badgeName = createString("badgeName");
 
     public QBadge(String variable) {
         super(Badge.class, forVariable(variable));

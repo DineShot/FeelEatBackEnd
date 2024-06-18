@@ -63,7 +63,7 @@ public class QReview extends EntityPathBase<Review> {
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.restaurantCode = inits.isInitialized("restaurantCode") ? new dine.dineshotbackend.store.entity.QRestaurant(forProperty("restaurantCode")) : null;
-        this.userCode = inits.isInitialized("userCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("userCode")) : null;
+        this.userCode = inits.isInitialized("userCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("userCode"), inits.get("userCode")) : null;
     }
 
 }

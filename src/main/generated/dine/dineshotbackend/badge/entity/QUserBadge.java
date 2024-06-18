@@ -24,6 +24,8 @@ public class QUserBadge extends EntityPathBase<UserBadge> {
 
     public final QBadge badgeCode;
 
+    public final DateTimePath<java.util.Date> badgeDate = createDateTime("badgeDate", java.util.Date.class);
+
     public final dine.dineshotbackend.user.entity.QUser userCode;
 
     public QUserBadge(String variable) {
@@ -45,7 +47,7 @@ public class QUserBadge extends EntityPathBase<UserBadge> {
     public QUserBadge(Class<? extends UserBadge> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.badgeCode = inits.isInitialized("badgeCode") ? new QBadge(forProperty("badgeCode")) : null;
-        this.userCode = inits.isInitialized("userCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("userCode")) : null;
+        this.userCode = inits.isInitialized("userCode") ? new dine.dineshotbackend.user.entity.QUser(forProperty("userCode"), inits.get("userCode")) : null;
     }
 
 }
